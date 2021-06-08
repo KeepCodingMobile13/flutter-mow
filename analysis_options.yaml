@@ -1,16 +1,26 @@
-# Defines a default set of lint rules enforced for projects at Google. For
-# details and rationale, see
-# https://github.com/dart-lang/pedantic#enabled-lints.
+include: package:lint/analysis_options.yaml
 
-include: package:pedantic/analysis_options.yaml
+analyzer:
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
 
-# For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
+linter:
+  rules:
+    avoid_print: true
+    # Calling toString on a runtime type is a non-trivial 
+    # operation that can negatively impact performance. 
+    # Eat me.
+    no_runtimeType_toString: false 
+    # Of course the comparison of unrelated should return false
+    unrelated_type_equality_checks: false
+    # better to have this deactivetd for beginners
+    prefer_const_constructors: false
+    # go fuck yourself
+    sort_pub_dependencies: false
+    # no initializing formals right now
+    prefer_initializing_formals: false
+    # Why da fuck?
+    avoid_positional_boolean_parameters: false
+    
 
-# Uncomment to specify additional rules.
-# linter:
-#   rules:
-#     - camel_case_types
-
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
