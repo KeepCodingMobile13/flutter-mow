@@ -12,12 +12,12 @@ abstract class ModelIdWidget<ModelId> extends StatefulWidget {
   @override
   @factory
   @protected
-  StateObserver
+  ObserverState
       createState(); // ignore: no_logic_in_create_state, this is the original sin
 
 }
 
-abstract class StateObserver<ModelId, Model extends Updatable,
+abstract class ObserverState<ModelId, Model extends Updatable,
     W extends ModelIdWidget<ModelId>> extends State<W> {
   @protected
   late Model model;
@@ -28,7 +28,8 @@ abstract class StateObserver<ModelId, Model extends Updatable,
   }
 
   /// Obtain the model from the id stored in the Widget
-  Model refreshModel(ModelId modelId);
+  @protected
+  Model getModel(ModelId modelId);
 
   /// Life cycle
   @override
@@ -36,7 +37,7 @@ abstract class StateObserver<ModelId, Model extends Updatable,
     super.initState();
 
     // Obtain the model
-    model = refreshModel(widget.modelId);
+    model = getModel(widget.modelId);
 
     // Start observing it
     model.addObserver(_modelDidChange);
@@ -46,8 +47,11 @@ abstract class StateObserver<ModelId, Model extends Updatable,
   void didUpdateWidget(covariant W oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // stop observing old model
     model.removeObserver(_modelDidChange);
-    model = refreshModel(widget.modelId);
+
+    // Get new model and start observing
+    model = getModel(widget.modelId);
     model.addObserver(_modelDidChange);
   }
 
