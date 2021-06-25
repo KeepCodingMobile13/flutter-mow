@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:updatable/updatable.dart';
 
-abstract class ModelIdWidget<ModelId> extends StatefulWidget {
-  final ModelId _modelId;
-  ModelId get modelId => _modelId;
+abstract class ModelWidget<Model extends Updatable> extends StatefulWidget {
+  final Model _model;
+  Model get model => _model;
 
-  const ModelIdWidget({required ModelId modelId, Key? key})
-      : _modelId = modelId,
+  const ModelWidget({required Model model, Key? key})
+      : _model = model,
         super(key: key);
 
   @override
@@ -17,47 +17,35 @@ abstract class ModelIdWidget<ModelId> extends StatefulWidget {
 
 }
 
-abstract class ObserverState<ModelId, Model extends Updatable,
-    W extends ModelIdWidget<ModelId>> extends State<W> {
-  @protected
-  late Model model;
-
+abstract class ObserverState<Model extends Updatable,
+    W extends ModelWidget<Model>> extends State<W> {
   @mustCallSuper
   void _modelDidChange() {
     setState(() {});
   }
 
-  /// Obtain the model from the id stored in the Widget
-  @protected
-  Model getModel(ModelId modelId);
-
   /// Life cycle
   @override
   void initState() {
+    // Start observing the model
+    widget.model.addObserver(_modelDidChange);
     super.initState();
-
-    // Obtain the model
-    model = getModel(widget.modelId);
-
-    // Start observing it
-    model.addObserver(_modelDidChange);
   }
 
   @override
   void didUpdateWidget(covariant W oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
     // stop observing old model
-    model.removeObserver(_modelDidChange);
+    oldWidget.model.removeObserver(_modelDidChange);
 
     // Get new model and start observing
-    model = getModel(widget.modelId);
-    model.addObserver(_modelDidChange);
+    widget.model.addObserver(_modelDidChange);
+
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
+    widget.model.removeObserver(_modelDidChange);
     super.dispose();
-    model.removeObserver(_modelDidChange);
   }
 }
