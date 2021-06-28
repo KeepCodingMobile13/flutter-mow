@@ -5,4 +5,5 @@ library mow;
 
 export 'package:updatable/updatable.dart';
 
-export 'src/mow_base.dart';
+export 'src/model_widget.dart';
+export 'src/observer_state.dart';
