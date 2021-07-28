@@ -12,6 +12,9 @@ dependencies:
   updatable:
     path: /home/fernando/code/libs/updatable
 
+  notifications: 
+    path: /home/fernando/code/libs/notifications
+
   flutter:
     sdk: flutter
 
