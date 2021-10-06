@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:updatable/updatable.dart';
 import 'package:mow/src/model_widget.dart';
+import 'package:updatable/updatable.dart';
 
 abstract class ObserverState<Model extends Updatable,
     W extends ModelWidget<Model>> extends State<W> {

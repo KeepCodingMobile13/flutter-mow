@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:updatable/updatable.dart';
 import 'package:mow/src/observer_state.dart';
+import 'package:updatable/updatable.dart';
 
 abstract class ModelWidget<Model extends Updatable> extends StatefulWidget {
   final Model _model;
