@@ -6,9 +6,9 @@ abstract class ModelWidget<Model extends Updatable> extends StatefulWidget {
   final Model _model;
   Model get model => _model;
 
-  const ModelWidget({required Model model, Key? key})
+  ModelWidget({required Model model, Key? key})
       : _model = model,
-        super(key: key);
+        super(key: key ??= UniqueKey());
 
   @override
   @factory
