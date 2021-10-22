@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:mow/src/observer_state.dart';
+import 'package:meta/meta.dart';
+import 'package:mow/src/mow_state.dart';
 import 'package:updatable/updatable.dart';
 
-abstract class ModelWidget<Model extends Updatable> extends StatefulWidget {
+abstract class MOWWidget<Model extends Updatable> extends StatefulWidget {
   final Model _model;
+  @internal
   Model get model => _model;
 
-  ModelWidget({required Model model, Key? key})
+  MOWWidget({required Model model, Key? key})
       : _model = model,
         super(key: key ??= UniqueKey());
 
   @override
   @factory
   @protected
-  ObserverState
+  MOWState
       createState(); // ignore: no_logic_in_create_state, this is the original sin
 
 }
